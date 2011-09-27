@@ -23,18 +23,28 @@ public class TestUtil {
 		for (Job job : jobs) {
 			boolean addBlank = true;
 			TestResultProjectAction testResults = job.getAction(TestResultProjectAction.class);
+			String description = job.getLastBuild().getDescription();
 			
 			if (testResults != null) {
 				AbstractTestResultAction tra = testResults.getLastTestResultAction();
 				
 				if (tra != null) {
+					AbstractTestResultAction traPrevious = tra.getPreviousResult();
+					int total = tra.getTotalCount();
+					int diff = total;
+					if (traPrevious != null) {
+						diff = total - traPrevious.getTotalCount();
+					}
+					
 					addBlank = false;
-					summary.addTestResult(new TestResult(job, tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount()));
+					summary.addTestResult(
+						new TestResult(job, total, tra.getFailCount(), tra.getSkipCount(), description, diff)
+					);
 				}
 			}
 			
 			if (addBlank) {
-				summary.addTestResult(new TestResult(job, 0, 0, 0));
+				summary.addTestResult(new TestResult(job, 0, 0, 0, "", 0));
 			}
 		}
 		
@@ -45,9 +55,9 @@ public class TestUtil {
 		TestResultAction tra = run.getAction(TestResultAction.class);
 		
 		if (tra != null) {
-			return new TestResult(run.getParent(), tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount());
+			return new TestResult(run.getParent(), tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount(), "", 0);
 		} else {
-			return new TestResult(run.getParent(), 0, 0, 0);
+			return new TestResult(run.getParent(), 0, 0, 0, "", 0);
 		}
 	}
 }

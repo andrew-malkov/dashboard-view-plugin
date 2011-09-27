@@ -27,29 +27,46 @@ THE SOFTWARE.
     <j:arg type="java.lang.String" value="0%" />
   </j:new>
   <dp:decorate portlet="${it}" width="8">
-  <tr><td class="pane-header" rowspan="2" style="vertical-align: middle">${%Job}</td><td class="pane-header" colspan="2">${%Success}</td><td class="pane-header" colspan="2">${%Failed}</td><td class="pane-header" colspan="2">${%Skipped}</td><td class="pane-header">${%Total}</td></tr>
-  <tr><td class="pane-header">#</td><td class="pane-header">%</td><td class="pane-header">#</td><td class="pane-header">%</td><td class="pane-header">#</td><td class="pane-header">%</td><td class="pane-header">#</td></tr>
+  <tr>
+	<td class="pane-header" rowspan="2" style="vertical-align: middle">${%Job}</td>
+	<td class="pane-header" rowspan="2" style="vertical-align: middle">${%Description}</td>
+	<td class="pane-header" colspan="2">${%Success}</td><td class="pane-header" colspan="2">${%Failed}</td>
+	<td class="pane-header" colspan="2">${%Skipped}</td>
+	<td class="pane-header">${%Diff}</td>
+	<td class="pane-header">${%Total}</td>
+  </tr>
+  <tr>
+	<td class="pane-header">#</td><td class="pane-header">%</td>
+	<td class="pane-header">#</td><td class="pane-header">%</td>
+	<td class="pane-header">#</td><td class="pane-header">%</td>
+	<td class="pane-header">#</td>
+	<td class="pane-header">#</td>
+  </tr>
   <j:set var="summary" value="${it.getTestResultSummary(jobs)}"/>
   <j:forEach var="tr" items="${summary.testResults}">
   	<tr style="border: 1px #bbb solid;">
   	  <td><dp:jobLink job="${tr.job}"/></td>
+	  <td>${tr.description}</td>
   	  <td>${tr.success}</td>
   	  <td>${it.format(format, tr.successPct)}</td>
   	  <td>${tr.failed}</td>
   	  <td>${it.format(format, tr.failedPct)}</td>
   	  <td>${tr.skipped}</td>
   	  <td>${it.format(format, tr.skippedPct)}</td>
+	  <td>${tr.diff}</td>
   	  <td>${tr.tests}</td>
   	</tr>
   </j:forEach>
   <tr>
     <td>${%Total}</td>
+	<td></td>
     <td>${summary.success}</td>
     <td>${it.format(format, summary.successPct)}</td>
     <td>${summary.failed}</td>
     <td>${it.format(format, summary.failedPct)}</td>
     <td>${summary.skipped}</td>
     <td>${it.format(format, summary.skippedPct)}</td>
+	<td>${summary.diff}</td>
     <td>${summary.tests}</td>
   </tr>
   </dp:decorate>

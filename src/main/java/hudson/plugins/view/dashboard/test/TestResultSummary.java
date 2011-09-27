@@ -7,7 +7,7 @@ public class TestResultSummary extends TestResult {
 	private List<TestResult> testResults = new ArrayList<TestResult>();
 
 	public TestResultSummary() {
-		super(null, 0, 0, 0);
+		super(null, 0, 0, 0, "", 0);
 	}
 	
 	public TestResultSummary addTestResult(TestResult testResult) {
@@ -17,6 +17,7 @@ public class TestResultSummary extends TestResult {
 		success += testResult.getSuccess();
 		failed += testResult.getFailed();
 		skipped += testResult.getSkipped();
+		diff += testResult.getDiff();
 		
 		return this;
 	}

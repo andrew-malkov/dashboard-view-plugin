@@ -8,13 +8,17 @@ public class TestResult {
 	protected int success;
 	protected int failed;
 	protected int skipped;
+	protected String description;
+	protected int diff;
 	
-	public TestResult(Job job, int tests, int failed, int skipped) {
+	public TestResult(Job job, int tests, int failed, int skipped, String description, int diff) {
 		super();
 		this.job = job;
 		this.tests = tests;
 		this.failed = failed;
 		this.skipped = skipped;
+		this.description = description;
+		this.diff = diff;
 		
 		this.success = tests - failed - skipped;
 	}
@@ -49,5 +53,13 @@ public class TestResult {
 	
 	public double getSkippedPct() {
 		return tests != 0 ? ( (double) skipped / tests) : 0d;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public int getDiff() {
+		return diff;
 	}
 }
